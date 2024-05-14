@@ -1,0 +1,16 @@
+services:
+  api:
+    image: rx-api
+    build:
+      args:
+        - PY_VERSION=$API_PY_VERSION # set by `justfile`
+    depends_on:
+      db:
+        condition: service_healthy
+    env_file:
+      - .env
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/api
+    ports:
+      - "50480:8000"

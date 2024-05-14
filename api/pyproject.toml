@@ -1,0 +1,36 @@
+[project]
+name = "rx_api"
+version = "0.0.0"
+description = "Default template for PDM package"
+authors = [
+    {name = "Dhruv Bhanushali", email = "dhruv_b@live.com"},
+]
+dependencies = [
+    "django>=5.0.6,<6",
+    "gunicorn>=22.0.0,<23",
+    "psycopg>=3.1.18,<4",
+    "python-decouple>=3.8,<4",
+]
+requires-python = "==3.12.*"
+readme = "README.md"
+license = {text = "GPL-3.0-or-later"}
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "ipython>=8.23.0,<9",
+]
+test = [
+    "pytest>=8.1.1,<9",
+    "pytest-django>=4.8.0,<5",
+    "pytest-sugar>=1.0.0,<2",
+]
+
+[tool.pdm.scripts]
+man = "python manage.py"
+dev = "{pdm} run man runserver"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "conf.settings"

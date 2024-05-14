@@ -1,0 +1,7 @@
+# Environments
+.env
+.venv/
+
+# Docker
+compose.yml
+Dockerfile
