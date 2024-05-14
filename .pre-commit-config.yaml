@@ -1,0 +1,44 @@
+exclude: migrations
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: trailing-whitespace
+        args: [--markdown-linebreak-ext=md]
+      - id: check-executables-have-shebangs
+      - id: check-case-conflict
+      - id: check-toml
+      - id: check-merge-conflict
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: check-symlinks
+      - id: mixed-line-ending
+      - id: fix-encoding-pragma
+        args:
+          - --remove
+      - id: check-docstring-first
+      - id: requirements-txt-fixer
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.3.4
+    hooks:
+      - id: ruff # covers Flake8, isort, pydocstyle, pyupgrade
+        args:
+          - --fix
+      - id: ruff-format # covers Black
+
+  - repo: https://github.com/koalaman/shellcheck-precommit
+    rev: v0.10.0
+    hooks:
+      - id: shellcheck
+
+  - repo: https://github.com/scop/pre-commit-shfmt
+    rev: v3.6.0-2
+    hooks:
+      - id: shfmt-docker
+
+  - repo: https://github.com/rhysd/actionlint
+    rev: v1.6.27
+    hooks:
+      - id: actionlint-docker

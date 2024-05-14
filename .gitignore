@@ -1,0 +1,35 @@
+# Editor/IDE
+.vscode/
+.idea/
+.swp
+*.iml
+
+# macOS
+._*
+.DS_Store
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Logs
+*.log
+
+# Pytest
+.pytest_cache/
+
+# PDM
+.pdm.toml
+.pdm-python
+
+# Environments
+.env
+.venv/
+
+# pre-commit
+pre-commit.pyz
+
+# Sphinx
+build/
+serve/
