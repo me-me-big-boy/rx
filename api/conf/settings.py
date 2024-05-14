@@ -36,6 +36,11 @@ if extra := config("ALLOWED_HOSTS", default="", cast=Csv()):
 if DEBUG:
     ALLOWED_HOSTS += ["*"]
 
+CSRF_TRUSTED_ORIGINS = []
+
+if extra := config("CSRF_TRUSTED_ORIGINS", default="", cast=Csv()):
+    CSRF_TRUSTED_ORIGINS += extra
+
 
 # Application definition
 
