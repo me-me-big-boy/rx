@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/stable/ref/settings/
 
 from pathlib import Path
 
-from decouple import config
+from decouple import Csv, config
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -29,6 +29,9 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", default=False)
 
 ALLOWED_HOSTS = []
+
+if extra := config("ALLOWED_HOSTS", default="", cast=Csv()):
+    ALLOWED_HOSTS += extra
 
 if DEBUG:
     ALLOWED_HOSTS += ["*"]
