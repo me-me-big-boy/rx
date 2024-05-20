@@ -1,0 +1,81 @@
+{% load static %}
+
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<meta
+			name="viewport"
+			content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+
+		<title>{% block title %}Home{% endblock %} - Rx</title>
+
+		<link rel="icon" href="{% static 'base/favicon.png' %}" />
+
+		<!-- Nord design system -->
+		<link
+			rel="stylesheet"
+			href="https://nordcdn.net/ds/css/3.2.0/nord.min.css"
+			integrity="sha384-x2XdCI8Yog7KGRmrrGLegjFrrIYXEhGNxql/xEXdMoW5NkpEhlAkUHdQJxkL1vPg"
+			crossorigin="anonymous" />
+		<script
+			type="module"
+			src="https://nordcdn.net/ds/components/3.10.0/index.js"
+			integrity="sha384-HK6ewtNXyP2NwrcFHu8w9llahvFxun9+THY1wGtW5jGW1lVoksrPzetgdKUNIZu4"
+			crossorigin="anonymous"></script>
+		<link
+			rel="stylesheet"
+			href="https://nordcdn.net/ds/themes/8.0.2/nord.css"
+			integrity="sha384-0Cfi7HuwGy+wburyclpPdLl1Djoqk3OD3YVxD0Y6eHSe0JB0wYCq5MWjQagEwBcE"
+			crossorigin="anonymous"
+			media="(prefers-color-scheme: light)" />
+		<link
+			rel="stylesheet"
+			href="https://nordcdn.net/ds/themes/8.0.2/nord-dark.css"
+			integrity="sha384-4mfQkitA1YUssjHukrfVhopnhPw9eM2tX8Z05rZ/5NJRmDJN1fQp2gGfwydx2SzL"
+			crossorigin="anonymous"
+			media="(prefers-color-scheme: no-preference), (prefers-color-scheme: dark)" />
+
+		<style>
+			body {
+				margin: 0;
+			}
+
+			.align-middle {
+				vertical-align: middle;
+			}
+		</style>
+
+		{% block head_end %}{% endblock %}
+	</head>
+
+	<body>
+		<nord-layout>
+			{% block nord_layout_start %}{% endblock %}
+
+			<nord-header slot="header">
+				<a href="{% url 'rx:overview' %}" style="text-decoration: none">
+					<h1 class="n-typescale-l">
+						<nord-icon class="align-middle">
+							<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+								<path
+									d="M1.11645 11.0973C0.526124 11.0973 0.00524568 10.6112 0.00524568 9.98266C-0.0294795 9.67014 0.109421 9.39234 0.387223 9.14926L9.25256 1.35346C9.46091 1.17983 9.73871 1.11038 9.98179 1.11038C10.2249 1.11038 10.5027 1.14511 10.7457 1.38818L19.6527 9.14926C19.8958 9.39234 20 9.67014 20 9.98266C20 10.6077 19.5138 11.0973 18.8888 11.0973H17.7776V16.6673C17.7776 17.8931 16.781 18.8897 15.5552 18.8897H4.42576C3.19302 18.8897 2.1964 17.8896 2.20335 16.6568L2.22766 11.0939H1.11645V11.0973ZM11.3604 6.83322C11.3604 6.52764 11.1103 6.27762 10.8048 6.27762H8.94355C8.63797 6.27762 8.38794 6.52764 8.38794 6.83322V8.66662V9.50003H5.72114C5.41555 9.50003 5.16553 9.75005 5.16553 10.0556V12.1668C5.16553 12.4724 5.41555 12.7224 5.72114 12.7224H8.38794V14.0558V15.3892C8.38794 15.6948 8.63797 15.9448 8.94355 15.9448H10.8048C11.1103 15.9448 11.3604 15.6948 11.3604 15.3892V12.7224H14.2772C14.5827 12.7224 14.8328 12.4724 14.8328 12.1668V10.3056C14.8328 10 14.5827 9.75003 14.2772 9.75003H11.3604V6.83322Z"
+									fill="#cc3838" />
+							</svg>
+						</nord-icon>
+						Rx
+					</h1>
+				</a>
+				<h2 class="n-typescale-l n-caption">
+					{% block page_title %}Home{% endblock %}
+				</h2>
+
+				<div slot="end">{% block nord_header_end %}{% endblock %}</div>
+			</nord-header>
+
+			{% block nord_layout_end %}{% endblock %}
+		</nord-layout>
+
+		{% block body_end%}{% endblock%}
+	</body>
+</html>
