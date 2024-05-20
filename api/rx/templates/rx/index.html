@@ -1,0 +1,149 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Overview{% endblock %}
+
+{% block page_title %}Overview{% endblock %}
+
+{% block head_end %}
+<style>
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		grid-gap: 1rem;
+	}
+</style>
+{% endblock %}
+
+{% block nord_layout_start %}
+<nord-top-bar slot="top-bar">
+	<div slot="end">
+		<nord-input
+			label="Filter"
+			hide-label
+			type="text"
+			placeholder="Filter"
+			id="filter-input">
+			<nord-icon slot="start" name="interface-filter"></nord-icon>
+		</nord-input>
+	</div>
+</nord-top-bar>
+{% endblock %}
+
+{% block nord_header_end %}
+Showing <span id="filter-stats">{{ medicines|length }}</span> of {{ medicines|length }}
+{% endblock %}
+
+{% block nord_layout_end %}
+<div class="grid">
+	{% for medicine in medicines %}
+	<nord-card
+		padding="none"
+		data-name="{{ medicine }}"
+		data-composition="{{ medicine.composition }}">
+		<h2 slot="header">{{ medicine }}</h2>
+		<div slot="header-end" class="n-color-text-weaker">
+			{{ medicine.delivery }}
+		</div>
+
+		<nord-table class="n-border-be">
+			<table>
+				<thead>
+					<tr>
+						<th>Agent</th>
+						<th class="n-table-align-right">Quantity</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					{% for ingredient in medicine.ingredient_set.all %}
+					<tr>
+						<td>
+							{{ ingredient.agent.names.0 }}
+							<div class="n-typescale-s n-color-text-weaker">
+								{{ ingredient.agent.category_names }}
+							</div>
+						</td>
+						<td class="n-table-align-right">
+							{{ ingredient.quantity|fmt_dec }} {{ ingredient.get_mu_display }}
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</nord-table>
+
+		<nord-table>
+			<table>
+				<thead>
+					<tr>
+						<th>Expires</th>
+						<th class="n-table-align-right">Quantity</th>
+						<th class="n-table-align-right">Price</th>
+					</tr>
+				</thead>
+
+				<tbody>
+					{% for unit in medicine.unit_set.all %}
+					<tr {% if unit.is_discarded%}style="opacity: 0.3;" {% endif %}>
+						<td>
+							<div
+								class="n-color-text-{% if unit.is_expired %}danger{% else%}success{% endif %}">
+								{{ unit.expires_on|date:'Y-m' }}
+								<div class="n-typescale-s">{{ unit.expires_on|date:'N' }}</div>
+							</div>
+						</td>
+						<td class="n-table-align-right">
+							{{ unit.quantity|fmt_dec }} {{ medicine.get_mu_display }}
+							<div class="n-typescale-s n-color-text-weaker n-border-strong-bs">
+								{{unit.init_quantity|fmt_dec}} {{ medicine.get_mu_display }}
+							</div>
+						</td>
+						<td class="n-table-align-right">
+							{{ unit.price }}
+							<code>{{ unit.currency }}</code>
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</nord-table>
+	</nord-card>
+	{% endfor %}
+</div>
+{% endblock %}
+
+{% block body_end %}
+<script>
+	function debounce(func, wait) {
+		let timeout;
+		return function (...args) {
+			const context = this;
+			clearTimeout(timeout);
+			timeout = setTimeout(() => func.apply(context, args), wait);
+		};
+	}
+
+	function handleInput() {
+		const query = document.getElementById("filter-input").value.toLowerCase();
+		const cards = document.querySelectorAll("nord-card");
+		let visibleCount = 0;
+
+		for (const card of cards) {
+			const name = card.dataset.name.toLowerCase();
+			const composition = card.dataset.composition.toLowerCase();
+
+			if (!query || name.includes(query) || composition.includes(query)) {
+				card.style.display = "block";
+				visibleCount++;
+			} else {
+				card.style.display = "none";
+			}
+		}
+		document.getElementById("filter-stats").textContent = visibleCount;
+	}
+
+	document
+		.getElementById("filter-input")
+		.addEventListener("input", debounce(handleInput, 500));
+</script>
+{% endblock %}
